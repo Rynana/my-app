@@ -25,11 +25,17 @@ type materialsItem = {
   stock: number;
 }
 
+function AddItemButton(){
+  return(
+    <span>ADD ITEM</span>
+  );
+}
+
 function TopSection(){
   return(
     <div>
       <div className='main-header'><h1> No Beah? </h1></div>
-      <div></div>
+      <div><AddItemButton/></div>
     </div>
   )
 }

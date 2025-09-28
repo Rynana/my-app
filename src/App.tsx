@@ -1,12 +1,56 @@
 import React from "react";
+import { useState } from 'react';
 import logo from "./logo.svg";
+import "./normalize.css";
 import "./App.css";
+import "./skeleton.css";
 
 function App() {
+    const [materialsList, setMaterialsList] = useState<materialsItem[]>([
+    {
+      category: "Cabling",
+      quantity: 300,
+      price: 300,
+      name: "Cat6E",
+      location: "Sydney",
+      stock: 4500,
+    },
+    {
+      category: "Tower",
+      quantity: 1,
+      price: 350000,
+      name: "LeBlanc Tower",
+      location: "Sydney",
+      stock: 3,
+    },
+    {
+      category: "Solar",
+      quantity: 24,
+      price: 6500,
+      name: "Eltek",
+      location: "Gosford",
+      stock: 25,
+    },
+    {
+      category: "Bean",
+      quantity: 1,
+      price: 1,
+      name: "Beah",
+      location: "Lewisham",
+      stock: 1,
+    },
+  ]);
+
+  const addStock = (name: string, amount: number) => {
+    const updateIndexOf = materialsList.findIndex((n) => (n.name === name));
+    materialsList[updateIndexOf].stock += amount;
+    setMaterialsList([...materialsList]);
+  };
+
   return (
     <div>
       <div>
-        <TopSection />
+        <TopSection addStock={addStock}/>
       </div>
       <div>
         <MaterialsTable materials={materialsList} />
@@ -24,32 +68,26 @@ type materialsItem = {
   stock: number;
 };
 
-function AddItemButton({ materials }: { materials: materialsItem[] }) {
+function AddItemButton({ addStock }: { addStock: (name: string, amount: number) => void }) {
   return (
-    <button
+    <button className="button button-primary"
       onClick={() => {
-        alert("No BEAH?");
-        /*
-
-        WHERE I NEED TO FIND BEAN
-
-        */
+        addStock("Beah", 1);
       }}
-      style={{ cursor: "pointer", color: "green" }}
     >
       Add BEAH
     </button>
   );
 }
 
-function TopSection() {
+function TopSection({ addStock }: { addStock: (name: string, amount: number) => void }) {
   return (
     <div>
       <div className="main-header">
         <h1> No Beah? </h1>
       </div>
       <div>
-        <AddItemButton materials={materialsList} />
+        <AddItemButton addStock={addStock} />
       </div>
     </div>
   );
@@ -57,62 +95,29 @@ function TopSection() {
 
 function MaterialsTable({ materials }: { materials: materialsItem[] }) {
   return (
-    <div className="materials-table-container">
-      <div className="materials-table-header-container">
-        <div className="header-text">Category</div>
-        <div className="header-text">Name</div>
-        <div className="header-text">Location</div>
-        <div className="header-text">Price</div>
-        <div className="header-text">Stock</div>
-      </div>
-      <div className="materials-table-data">
+    <table className="u-full-width">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Price</th>
+          <th>Stock</th>
+        </tr>
+      </thead>
+      <tbody>
         {materials.map((m) => (
-          <div className="materials-table-datarow">
-            <div className="data-text">{m.category}</div>
-            <div className="data-text">{m.name}</div>
-            <div className="data-text">{m.location}</div>
-            <div className="data-text">{m.price}</div>
-            <div className="data-text">{m.stock}</div>
-          </div>
+          <tr>
+            <td>{m.category}</td>
+            <td>{m.name}</td>
+            <td>{m.location}</td>
+            <td>{m.price}</td>
+            <td>{m.stock}</td>
+          </tr>
         ))}
-      </div>
-    </div>
+      </tbody>
+    </table>
   );
 }
-
-let materialsList: materialsItem[] = [
-  {
-    category: "Cabling",
-    quantity: 300,
-    price: 300,
-    name: "Cat6E",
-    location: "Sydney",
-    stock: 4500,
-  },
-  {
-    category: "Tower",
-    quantity: 1,
-    price: 350000,
-    name: "LeBlanc Tower",
-    location: "Sydney",
-    stock: 3,
-  },
-  {
-    category: "Solar",
-    quantity: 24,
-    price: 6500,
-    name: "Eltek",
-    location: "Gosford",
-    stock: 25,
-  },
-  {
-    category: "Bean",
-    quantity: 1,
-    price: 1,
-    name: "Beah",
-    location: "Lewisham",
-    stock: 1,
-  },
-];
 
 export default App;

@@ -24,11 +24,16 @@ type materialsItem = {
   stock: number;
 };
 
-function AddItemButton() {
+function AddItemButton({ materials }: { materials: materialsItem[] }) {
   return (
     <button
       onClick={() => {
-        alert("clicked");
+        alert("No BEAH?");
+        /*
+
+        WHERE I NEED TO FIND BEAN
+
+        */
       }}
       style={{ cursor: "pointer", color: "green" }}
     >
@@ -44,7 +49,7 @@ function TopSection() {
         <h1> No Beah? </h1>
       </div>
       <div>
-        <AddItemButton />
+        <AddItemButton materials={materialsList} />
       </div>
     </div>
   );

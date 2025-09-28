@@ -37,13 +37,14 @@
   }
 }
 
-.materials-table-header-container, .materials-table-datarow {
+.materials-table-header-container,
+.materials-table-datarow {
   display: grid;
   grid-template-columns: repeat(5, 200px);
   grid-auto-flow: row;
   padding: 16px;
 }
 
-.header-text{
+.header-text {
   font-weight: bold;
 }

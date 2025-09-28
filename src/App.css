@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.materials-table-header-container, .materials-table-datarow {
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  grid-auto-flow: row;
+  padding: 16px;
+}
+
+.header-text{
+  font-weight: bold;
+}

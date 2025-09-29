@@ -63,7 +63,7 @@ function App() {
   return (
     <div>
       <div>
-        <TopSection addStockFn={addStock} />
+        <TopSection addStock={addStock} />
       </div>
       <div>
         <MaterialsTable materials={materialsList} />
@@ -71,8 +71,6 @@ function App() {
     </div>
   );
 }
-
-
 
 function AddItemButton({
   addStock,
@@ -91,39 +89,18 @@ function AddItemButton({
   );
 }
 
-function TopSection({
-  addStockFn,
-}: {
-  addStockFn: addStockFn;
-}) {
+function TopSection({ addStock }: { addStock: addStockFn }) {
   return (
     <div>
       <div className="main-header">
         <h1> No Beah? </h1>
       </div>
       <div>
-        <AddItemButton addStock={addStockFn} />
+        <AddItemButton addStock={addStock} />
       </div>
     </div>
   );
 }
-
-// function TopSection({
-//   addStockFn,
-// }: {
-//   addStockFn: {addStock: addStockFn};
-// }) {
-//   return (
-//     <div>
-//       <div className="main-header">
-//         <h1> No Beah? </h1>
-//       </div>
-//       <div>
-//         <AddItemButton addStock={addStockFn} />
-//       </div>
-//     </div>
-//   );
-// }
 
 function MaterialsTable({ materials }: { materials: materialsItem[] }) {
   return (

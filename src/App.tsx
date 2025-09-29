@@ -1,12 +1,25 @@
 import React from "react";
-import { useState } from 'react';
+import { useState } from "react";
 import logo from "./logo.svg";
 import "./normalize.css";
 import "./App.css";
 import "./skeleton.css";
 
+// TYPE ZONE
+
+type materialsItem = {
+  category: string;
+  quantity: number;
+  price: number;
+  name: string;
+  location: string;
+  stock: number;
+};
+
+type addStockFn = (name: string, amount: number) => void;
+
 function App() {
-    const [materialsList, setMaterialsList] = useState<materialsItem[]>([
+  const [materialsList, setMaterialsList] = useState<materialsItem[]>([
     {
       category: "Cabling",
       quantity: 300,
@@ -41,8 +54,8 @@ function App() {
     },
   ]);
 
-  const addStock = (name: string, amount: number) => {
-    const updateIndexOf = materialsList.findIndex((n) => (n.name === name));
+  const addStock: addStockFn = (name, amount) => {
+    const updateIndexOf = materialsList.findIndex((n) => n.name === name);
     materialsList[updateIndexOf].stock += amount;
     setMaterialsList([...materialsList]);
   };
@@ -50,7 +63,7 @@ function App() {
   return (
     <div>
       <div>
-        <TopSection addStock={addStock}/>
+        <TopSection addStockFn={addStock} />
       </div>
       <div>
         <MaterialsTable materials={materialsList} />
@@ -59,18 +72,16 @@ function App() {
   );
 }
 
-type materialsItem = {
-  category: string;
-  quantity: number;
-  price: number;
-  name: string;
-  location: string;
-  stock: number;
-};
 
-function AddItemButton({ addStock }: { addStock: (name: string, amount: number) => void }) {
+
+function AddItemButton({
+  addStock,
+}: {
+  addStock: (name: string, amount: number) => void;
+}) {
   return (
-    <button className="button button-primary"
+    <button
+      className="button button-primary"
       onClick={() => {
         addStock("Beah", 1);
       }}
@@ -80,18 +91,39 @@ function AddItemButton({ addStock }: { addStock: (name: string, amount: number) 
   );
 }
 
-function TopSection({ addStock }: { addStock: (name: string, amount: number) => void }) {
+function TopSection({
+  addStockFn,
+}: {
+  addStockFn: addStockFn;
+}) {
   return (
     <div>
       <div className="main-header">
         <h1> No Beah? </h1>
       </div>
       <div>
-        <AddItemButton addStock={addStock} />
+        <AddItemButton addStock={addStockFn} />
       </div>
     </div>
   );
 }
+
+// function TopSection({
+//   addStockFn,
+// }: {
+//   addStockFn: {addStock: addStockFn};
+// }) {
+//   return (
+//     <div>
+//       <div className="main-header">
+//         <h1> No Beah? </h1>
+//       </div>
+//       <div>
+//         <AddItemButton addStock={addStockFn} />
+//       </div>
+//     </div>
+//   );
+// }
 
 function MaterialsTable({ materials }: { materials: materialsItem[] }) {
   return (

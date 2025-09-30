@@ -10,6 +10,7 @@ import "./skeleton.css";
 //TYPE ZONE
 
 type taskNode = {id: number, taskDescription: string};
+let idCount: number = 2
 
 
 //APP ZONE
@@ -44,9 +45,14 @@ function BottomSection({ onAddTask }: { onAddTask: (id: number, taskDescription:
   return(
     <div>
       <button className="button-primary">Remove Task</button>
-      <button className="button-primary" onClick={
-        () => onAddTask(3, "Test Task")
-      }>
+      <button className="button-primary"
+        onClick={() => {
+          const userInfo = prompt('Please enter info');
+          if (userInfo) {
+            onAddTask(idCount += 1, userInfo);
+          }
+        }}
+      >
         Add Task
       </button>
     </div>

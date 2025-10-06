@@ -1,65 +1,157 @@
-import React, { use } from "react";
+import React, { use, useEffect } from "react";
 import { useState } from "react";
-import logo from "./logo.svg";
 import "./normalize.css";
 import "./App.css";
 import "./skeleton.css";
 
 // New App
 
-//TYPE ZONE
+//TYPE SHI
 
-type taskNode = {id: number, taskDescription: string};
-let idCount: number = 2
+type taskNode = { id: number; taskDescription: string };
+let idCount: number = 3;
 
 
-//APP ZONE
-function App(){
-  //Dummy Data
-  const [getTask, setTask] = useState<taskNode[]> ([{id: 1, taskDescription: "Make ToDo App"},{id: 2, taskDescription: "Kick Bean"}]);
-  const addTask = (id: number, taskDescription: string) => {
-    setTask(prev => [...prev, {id, taskDescription}])
+
+//APP SHI
+function App() {
+  //{ Tristan } Data
+
+  const [tasks, setTask] = useState<taskNode[]>([]);
+  //API Call
+  useEffect(() => {
+    fetch("https://less.coffee/ryan/todo.json").then((r) => r.json()).then((data) => {setTask(data.items)});
   }
-  return(
+  ,[]
+)
+  //Settask with API info
+
+  const addTask = (id: number, taskDescription: string) => {
+    setTask((prev) => [...prev, { id, taskDescription }]);
+  };
+
+  const removeTask = (id: number) => {
+    setTask((prev) =>
+      prev.filter((task) => {
+        return task.id !== id;
+      }),
+    );
+  };
+
+  const editTask = (id: number, newDescription: string) => {
+    setTask((prev) => {
+      return prev.map((t) => {
+        if (t.id === id) {
+          t.taskDescription = newDescription;
+        }
+        return { ...t };
+      });
+    });
+  };
+
+  return (
     <div>
-      <div><TopSection/></div>
-      <div><MidSection getTask={getTask}/></div>
-      <div><BottomSection onAddTask={addTask}/></div>
+      <div>
+        <TopSection onAddTask={addTask} />
+      </div>
+      <div>
+        <MidSection
+          getTask = { tasks }
+          onRemoveTask = { removeTask }
+          editTask = { editTask }
+        />
+      </div>
+      <div>
+        <BottomSection onAddTask={addTask} />
+      </div>
     </div>
-  )
+  );
 }
 
-function TopSection(){
-  return(
-    <div><h1>My ToDo App</h1></div>
-  )
-}
-
-function MidSection({ getTask }: { getTask: taskNode[]}){
-  return(
-    <div>{getTask.map(m => (<div>{"(" + m.id + ") " + m.taskDescription}</div>))}</div>
-  )
-}
-
-function BottomSection({ onAddTask }: { onAddTask: (id: number, taskDescription: string) => void }){
-  return(
+function TopSection({
+  onAddTask,
+}: {
+  onAddTask: (id: number, taskDescription: string) => void;
+}) {
+  return (
     <div>
-      <button className="button-primary">Remove Task</button>
-      <button className="button-primary"
-        onClick={() => {
-          const userInfo = prompt('Please enter info');
-          if (userInfo) {
-            onAddTask(idCount += 1, userInfo);
-          }
-        }}
-      >
-        Add Task
-      </button>
+      <div>
+        <h1>My ToDo App</h1>
+      </div>
+      <div>
+        <button
+          className="button-primary"
+          onClick={() => {
+            const userInfo = prompt("Please enter info");
+            if (userInfo) {
+              onAddTask((idCount += 1), userInfo);
+            }
+          }}
+        >
+          Add Task
+        </button>
+      </div>
     </div>
-  )
+  );
 }
 
+function MidSection({
+  getTask,
+  onRemoveTask,
+  editTask,
+}: {
+  getTask: taskNode[];
+  onRemoveTask: (id: number) => void;
+  editTask: (id: number, newDescription: string) => void;
+}) {
+  return (
+    <div>
+      <thead>
+        <tr>
+          <th>Task List | Number of Tasks: {getTask.length}</th>
+        </tr>
+      </thead>
+      {getTask.map(({ id, taskDescription }) => (
+        <tbody>
+          <tr>
+            <td>
+              <button
+                className="button-primary"
+                onClick={() => onRemoveTask(id)}
+              >
+                Delete
+              </button>
+              <button
+                className="button-primary"
+                onClick={() => {
+                  const newDescription = prompt("Edit Entry", taskDescription);
+                  if (newDescription) {
+                    editTask(id, newDescription);
+                  }
+                }}
+              >
+                Edit
+              </button>
+              {"   " + taskDescription}
+            </td>
+          </tr>
+        </tbody>
+      ))}
+    </div>
+  );
+}
 
+function BottomSection({
+  onAddTask,
+}: {
+  onAddTask: (id: number, taskDescription: string) => void;
+}) {
+  return (
+    <div>
+      <p>Bottom Text</p>
+    </div>
+  );
+}
 
 // OLD APP
 // TYPE ZONE
@@ -112,9 +204,11 @@ function BottomSection({ onAddTask }: { onAddTask: (id: number, taskDescription:
 //   ]);
 
 //   const addStock: addStockFn = (name, amount) => {
-//     const updateIndexOf = materialsList.findIndex((n) => n.name === name);
-//     materialsList[updateIndexOf].stock += amount;
-//     setMaterialsList([...materialsList]);
+//     setMaterialsList(prev => {
+//        const updateIndexOf = materialsList.findIndex((n) => n.name === name);
+//        prev[updateIndexOf].stock+=amount;
+//        return prev;
+//     });
 //   };
 
 //   return (
@@ -128,8 +222,6 @@ function BottomSection({ onAddTask }: { onAddTask: (id: number, taskDescription:
 //     </div>
 //   );
 // }
-
-
 
 // function AddItemButton({addStock,}: {addStock: (name: string, amount: number) => void;
 // }) {
@@ -161,7 +253,6 @@ function BottomSection({ onAddTask }: { onAddTask: (id: number, taskDescription:
 //     </div>
 //   );
 // }
-
 
 // function MaterialsTable({ materials }: { materials: materialsItem[] }) {
 //   return (

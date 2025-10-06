@@ -463,7 +463,11 @@ td:last-child {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 button,
 .button {
-  margin-bottom: 1rem;
+  margin: 1rem;
+  border-radius: 16px;
+  background-color: #f44336;
+  text-align: center;
+  padding: auto;
 }
 input,
 textarea,

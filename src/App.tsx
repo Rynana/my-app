@@ -105,15 +105,16 @@ function MidSection({
   editTask: (id: number, newDescription: string) => void;
 }) {
   return (
-    <div>
+    <table>
       <thead>
         <tr>
           <th>Task List | Number of Tasks: {getTask.length}</th>
         </tr>
       </thead>
-      {getTask.map(({ id, taskDescription }) => (
         <tbody>
-          <tr>
+      {getTask.map(({ id, taskDescription }) => (
+
+          <tr key= {`task-${id}`}>
             <td>
               <button
                 className="button-primary"
@@ -132,12 +133,15 @@ function MidSection({
               >
                 Edit
               </button>
-              {"   " + taskDescription}
+                    <input className="u-full-width" value={taskDescription} id={`task-${id}`} type="text" onChange={(event)=>{
+                      editTask(id, event.target.value);
+                    }}></input>
             </td>
           </tr>
-        </tbody>
+        
       ))}
-    </div>
+      </tbody>
+    </table>
   );
 }
 
@@ -146,139 +150,15 @@ function BottomSection({
 }: {
   onAddTask: (id: number, taskDescription: string) => void;
 }) {
+
   return (
-    <div>
-      <p>Bottom Text</p>
-    </div>
+      <div>
+        <p>Bottom Text</p>
+      </div>
   );
 }
 
-// OLD APP
-// TYPE ZONE
-
-// type materialsItem = {
-//   category: string;
-//   quantity: number;
-//   price: number;
-//   name: string;
-//   location: string;
-//   stock: number;
-// };
-
-// type addStockFn = (name: string, amount: number) => void;
-
-// function App() {
-//   const [materialsList, setMaterialsList] = useState<materialsItem[]>([
-//     {
-//       category: "Cabling",
-//       quantity: 300,
-//       price: 300,
-//       name: "Cat6E",
-//       location: "Sydney",
-//       stock: 4500,
-//     },
-//     {
-//       category: "Tower",
-//       quantity: 1,
-//       price: 350000,
-//       name: "LeBlanc Tower",
-//       location: "Sydney",
-//       stock: 3,
-//     },
-//     {
-//       category: "Solar",
-//       quantity: 24,
-//       price: 6500,
-//       name: "Eltek",
-//       location: "Gosford",
-//       stock: 25,
-//     },
-//     {
-//       category: "Bean",
-//       quantity: 1,
-//       price: 1,
-//       name: "Beah",
-//       location: "Lewisham",
-//       stock: 1,
-//     },
-//   ]);
-
-//   const addStock: addStockFn = (name, amount) => {
-//     setMaterialsList(prev => {
-//        const updateIndexOf = materialsList.findIndex((n) => n.name === name);
-//        prev[updateIndexOf].stock+=amount;
-//        return prev;
-//     });
-//   };
-
-//   return (
-//     <div>
-//       <div>
-//         <TopSection addStockFn={addStock} />
-//       </div>
-//       <div>
-//         <MaterialsTable materials={materialsList} />
-//       </div>
-//     </div>
-//   );
-// }
-
-// function AddItemButton({addStock,}: {addStock: (name: string, amount: number) => void;
-// }) {
-//   return (
-//     <button
-//       className="button button-primary"
-//       onClick={() => {
-//         addStock("Beah", 1);
-//       }}
-//     >
-//       Add BEAH
-//     </button>
-//   );
-// }
-
-// function TopSection({
-//   addStockFn,
-// }: {
-//   addStockFn: addStockFn;
-// }) {
-//   return (
-//     <div>
-//       <div className="main-header">
-//         <h1> No Beah? </h1>
-//       </div>
-//       <div>
-//         <AddItemButton addStock={addStockFn} />
-//       </div>
-//     </div>
-//   );
-// }
-
-// function MaterialsTable({ materials }: { materials: materialsItem[] }) {
-//   return (
-//     <table className="u-full-width">
-//       <thead>
-//         <tr>
-//           <th>Category</th>
-//           <th>Name</th>
-//           <th>Location</th>
-//           <th>Price</th>
-//           <th>Stock</th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//         {materials.map((m) => (
-//           <tr>
-//             <td>{m.category}</td>
-//             <td>{m.name}</td>
-//             <td>{m.location}</td>
-//             <td>{m.price}</td>
-//             <td>{m.stock}</td>
-//           </tr>
-//         ))}
-//       </tbody>
-//     </table>
-//   );
-// }
-
 export default App;
+// The setPopupOpen function is not needed as a standalone function because it's already defined as a state setter in BottomSection.
+// You can safely remove this function implementation from the file.
+

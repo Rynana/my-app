@@ -1,155 +1,132 @@
-import React from "react";
+import React, { use, useEffect } from "react";
 import { useState } from "react";
-import logo from "./logo.svg";
 import "./normalize.css";
 import "./App.css";
 import "./skeleton.css";
 
-// TYPE ZONE
 
-type materialsItem = {
-  category: string;
-  quantity: number;
-  price: number;
-  name: string;
-  location: string;
-  stock: number;
-};
+//Types
 
-type addStockFn = (name: string, amount: number) => void;
+type numberParameter = {userNumber: number};
 
-function App() {
-  const [materialsList, setMaterialsList] = useState<materialsItem[]>([
-    {
-      category: "Cabling",
-      quantity: 300,
-      price: 300,
-      name: "Cat6E",
-      location: "Sydney",
-      stock: 4500,
-    },
-    {
-      category: "Tower",
-      quantity: 1,
-      price: 350000,
-      name: "LeBlanc Tower",
-      location: "Sydney",
-      stock: 3,
-    },
-    {
-      category: "Solar",
-      quantity: 24,
-      price: 6500,
-      name: "Eltek",
-      location: "Gosford",
-      stock: 25,
-    },
-    {
-      category: "Bean",
-      quantity: 1,
-      price: 1,
-      name: "Beah",
-      location: "Lewisham",
-      stock: 1,
-    },
-  ]);
+//App
 
-  const addStock: addStockFn = (name, amount) => {
-    const updateIndexOf = materialsList.findIndex((n) => n.name === name);
-    materialsList[updateIndexOf].stock += amount;
-    setMaterialsList([...materialsList]);
-  };
-
-  return (
+function App(){
+  const [userNumber, setUserNumber] = useState<numberParameter>(0)
+  return(
     <div>
       <div>
-        <TopSection addStockFn={addStock} />
+        <h1>Counter App</h1>
       </div>
       <div>
-        <MaterialsTable materials={materialsList} />
+        <BottomSection/>
       </div>
     </div>
-  );
+  )
 }
 
+//Functions
 
-
-function AddItemButton({
-  addStock,
-}: {
-  addStock: (name: string, amount: number) => void;
-}) {
-  return (
-    <button
-      className="button button-primary"
-      onClick={() => {
-        addStock("Beah", 1);
-      }}
-    >
-      Add BEAH
-    </button>
-  );
-}
-
-function TopSection({
-  addStockFn,
-}: {
-  addStockFn: addStockFn;
-}) {
-  return (
+function BottomSection(){
+  return(
     <div>
-      <div className="main-header">
-        <h1> No Beah? </h1>
-      </div>
       <div>
-        <AddItemButton addStock={addStockFn} />
+        <button>
+          -1
+        </button>
+        <button>
+          Reset
+        </button>
+        <p>userNumber</p>
+        <button>
+          +1
+        </button>
       </div>
     </div>
-  );
+  )
 }
 
-// function TopSection({
-//   addStockFn,
-// }: {
-//   addStockFn: {addStock: addStockFn};
-// }) {
-//   return (
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// type numberParameter= {userNumber: number}
+
+// function App(){
+//   const [getNumber, setNumber] = useState<numberParameter>({userNumber: 0});
+
+//   const setPlusNumber=  (userNumber: number)=>{
+//     setNumber((prev) => ({
+//       ...prev, 
+//       userNumber: prev.userNumber+1}))
+//   }
+
+//   const setMinusNumber = (userNumber:number)=>{
+//     setNumber((prev)=>({
+//       ...prev, 
+//       userNumber: prev.userNumber-1}))
+//   }
+
+//   const setResetNumber = (userNumber:number)=>{
+//     setNumber((prev)=>({
+//       ...prev,
+//       userNumber: prev.userNumber = 0}))
+//   }
+  
+//   return(
 //     <div>
-//       <div className="main-header">
-//         <h1> No Beah? </h1>
+//       <div>
+//         <h1>COUNTER APP</h1>
 //       </div>
 //       <div>
-//         <AddItemButton addStock={addStockFn} />
+//         <BottomSection getNumber={getNumber} setPlusNumber={setPlusNumber} setMinusNumber={setMinusNumber} setResetNumber={setResetNumber} />
 //       </div>
 //     </div>
-//   );
+//   )
 // }
 
-function MaterialsTable({ materials }: { materials: materialsItem[] }) {
-  return (
-    <table className="u-full-width">
-      <thead>
-        <tr>
-          <th>Category</th>
-          <th>Name</th>
-          <th>Location</th>
-          <th>Price</th>
-          <th>Stock</th>
-        </tr>
-      </thead>
-      <tbody>
-        {materials.map((m) => (
-          <tr>
-            <td>{m.category}</td>
-            <td>{m.name}</td>
-            <td>{m.location}</td>
-            <td>{m.price}</td>
-            <td>{m.stock}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
+// function BottomSection({getNumber, setPlusNumber, setMinusNumber, setResetNumber}:{getNumber:numberParameter, setPlusNumber: (userNumber:number)=>void, setMinusNumber: (userNumber:number)=>void, setResetNumber:(userNumber:number)=>void}){
+//   return(
+//     <div>
+//       <div>
+//         <button onClick={()=> {
+//           if(getNumber.userNumber > -10){
+//           setMinusNumber(getNumber.userNumber)
+//           }}
+//         }>-1</button>
+//         <p>{getNumber.userNumber}</p>
+//         <button onClick={()=> {
+//         if(getNumber.userNumber < 10){
+//           setPlusNumber(getNumber.userNumber)
+//         }}
+//         }>+1</button>
+//         <button onClick={()=> 
+//           setResetNumber(getNumber.userNumber)
+//         }>Reset</button>
+//       </div>
+//     </div>
+//   )
+// }
 
 export default App;
